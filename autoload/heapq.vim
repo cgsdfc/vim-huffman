@@ -1,5 +1,5 @@
 ""
-" heapq is a dirty copy-and-paste of the python module
+" heapq is a dirty copy-and-paste of the Python module
 " heapq.py.
 
 " Try to use __lt__ but failback to operator<.
