@@ -1,0 +1,63 @@
+*vim-huffman.txt*
+                                                       *Huffman* *vim-huffman*
+
+==============================================================================
+CONTENTS                                                *vim-huffman-contents*
+  1. Introduction..........................................|vim-huffman-intro|
+  2. Functions.........................................|vim-huffman-functions|
+  3. Dictionaries..........................................|vim-huffman-dicts|
+  4. Exceptions.......................................|vim-huffman-exceptions|
+
+==============================================================================
+INTRODUCTION                                               *vim-huffman-intro*
+
+Provided a List or Dict of 2-Lists in (symbol, weight) format, generate a
+Huffman codebook, returned as a Dict in {symbol: code} format. Examples:
+>
+  echo huffman#codebook([['A', 2], ['B', 4], ['C', 1], ['D', 1]])
+  {'A': '10', 'B': '0', 'C': '110', 'D': '111'}
+
+  echo huffman#codebook({'A':2, 'B':4, 'C':1, 'D':1})
+  {'A': '10', 'B': '0', 'C': '110', 'D': '111'}
+<
+
+==============================================================================
+FUNCTIONS                                              *vim-huffman-functions*
+
+huffman#util#new({cls}, {args})                           *huffman#util#new()*
+  Handy routine to create an instance for {cls} and {args} {cls} should have a
+  __init__() method like in Python.
+
+huffman#util#repr({x})                                   *huffman#util#repr()*
+  Display nice string representation of {x}. {x} should have a __repr__()
+  method.
+
+huffman#util#hasattr({o}, {attr})                     *huffman#util#hasattr()*
+  Test whether {o} has attribute {attr}.
+
+huffman#util#len({o})                                     *huffman#util#len()*
+  Call __len__() of {o}.
+
+==============================================================================
+DICTIONARIES                                               *vim-huffman-dicts*
+
+                                                            *vim-huffman.Heap*
+A object interface to |heapq|.
+
+                                                            *vim-huffman.Leaf*
+A subclass of |vim-huffman.Node| with symbol but no left or right children.
+
+                                                            *vim-huffman.Node*
+A node in the Huffman tree.
+
+                                                            *vim-huffman.Tree*
+A tree that holds all the binary nodes.
+
+==============================================================================
+EXCEPTIONS                                            *vim-huffman-exceptions*
+
+                                                           *ERROR(ValueError)*
+Bad value has been seen.
+
+
+vim:tw=78:ts=8:ft=help:norl:

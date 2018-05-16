@@ -1,23 +1,19 @@
 ""
-"
-"   Provided an iterable of 2-tuples in (symbol, weight) format, generate a
-"   Huffman codebook, returned as a dictionary in {symbol: code} format.
-"   Examples:
-"   >>> huffman#codebook([['A', 2], ['B', 4], ['C', 1], ['D', 1]])
+" @section Introduction, intro
+" @stylized Huffman
+" @library
+" @order intro functions dicts exceptions
+" Provided a List or Dict of 2-Lists in (symbol, weight) format, generate a
+" Huffman codebook, returned as a Dict in {symbol: code} format.
+" Examples:
+" >
+"   echo huffman#codebook([['A', 2], ['B', 4], ['C', 1], ['D', 1]])
 "   {'A': '10', 'B': '0', 'C': '110', 'D': '111'}
-"   >>> huffman#codebook(collections.Counter('man the stand banana man').items())
-"   {' ': '111',
-"    'a': '10',
-"    'b': '0100',
-"    'd': '0110',
-"    'e': '11010',
-"    'h': '0101',
-"    'm': '1100',
-"    'n': '00',
-"    's': '11011',
-"    't': '0111'}
 "
-"
+"   echo huffman#codebook({'A':2, 'B':4, 'C':1, 'D':1})
+"   {'A': '10', 'B': '0', 'C': '110', 'D': '111'}
+" <
+
 function! huffman#codebook(symbolweights)
   let typ = type(a:symbolweights)
   if typ == type([])

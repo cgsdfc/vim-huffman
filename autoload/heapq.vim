@@ -1,3 +1,8 @@
+""
+" heapq is a dirty copy-and-paste of the python module
+" heapq.py.
+
+" Try to use __lt__ but failback to operator<.
 function! heapq#_cmp_lt(x, y)
   if huffman#util#hasattr(a:x, '__lt__')
     return a:x.__lt__(a:y)
@@ -6,11 +11,16 @@ function! heapq#_cmp_lt(x, y)
   endif
 endfunction
 
+""
+" Push an {item} to {heap} and maintain heap invariant.
 function! heapq#heappush(heap, item)
   call add(a:heap, a:item)
   call heapq#_siftdown(a:heap, 0, len(a:heap)-1)
 endfunction
 
+""
+" Pop and return the smallest item in {heap}.
+" @throws E684 list index out of range.
 function! heapq#heappop(heap)
   let lastelt = remove(a:heap, -1)
   if len(a:heap)
@@ -23,6 +33,10 @@ function! heapq#heappop(heap)
   return returnitem
 endfunction
 
+""
+" Replace the smallest item in {heap} with {item}
+" and return it.
+" @throws E684 list index out of range.
 function! heapq#heapreplace(heap, item)
   let returnitem = a:heap[0]
   let a:heap[0] = a:item
@@ -30,6 +44,8 @@ function! heapq#heapreplace(heap, item)
   return returnitem
 endfunction
 
+""
+" A faster shortcut to a |heappush()| followed by |heappop()|.
 function! heapq#heappushpop(heap, item)
   let item = a:item
   if len(a:heap) && heapq#_cmp_lt(a:heap[0], a:item)
@@ -39,6 +55,8 @@ function! heapq#heappushpop(heap, item)
   return item
 endfunction
 
+""
+" Turn a List {x} into a heap in place in O(N).
 function! heapq#heapify(x)
   for i in reverse(range(len(a:x)/2))
     call heapq#_siftup(a:x, i)
@@ -82,5 +100,3 @@ function! heapq#_siftup(heap, pos)
   let a:heap[pos] = newitem
   call heapq#_siftdown(a:heap, startpos, pos)
 endfunction
-
-

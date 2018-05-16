@@ -1,6 +1,7 @@
 ""
 " @dict Heap
-" A object interface to a priority heap
+" A object interface to |heapq|.
+
 let s:Heap = {}
 
 function! s:Heap.__init__(heap)

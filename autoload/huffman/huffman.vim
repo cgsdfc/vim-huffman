@@ -1,12 +1,14 @@
 ""
 " @dict Node
-" A node in the binary tree
+" A node in the Huffman tree.
+
 let s:Node = {}
 
 function! s:Node.__init__(left, right)
   let self.parent = v:none
   let a:left.parent = self
   let a:right.parent = self
+
   let self.left = a:left
   let self.right = a:right
 
@@ -25,6 +27,10 @@ function! huffman#huffman#Node(...)
   return huffman#util#new(s:Node, a:000)
 endfunction
 
+""
+" @dict Leaf
+" A subclass of @dict(Node) with symbol but no left or right children.
+
 let s:Leaf = copy(s:Node)
 
 function! s:Leaf.__init__(symbol, weight)
@@ -38,6 +44,7 @@ function! s:Leaf.__repr__()
         \ self.symbol, self.weight, self.code())
 endfunction
 
+" Generate code for a @dict(Leaf).
 function! s:Leaf.code()
   let code = ''
   let n = self
@@ -56,10 +63,13 @@ endfunction
 ""
 " @dict Tree
 " A tree that holds all the binary nodes.
+
 let s:Tree = {}
 
 function! s:Tree.__init__(symbolweights)
   let leaves = map(copy(a:symbolweights), 'huffman#huffman#Leaf(v:val[0], v:val[1])')
+  " This leaves[:] is really really important as it copies the List, which
+  " will be reused later.
   let heap = huffman#heapqo#Heap(leaves[:])
 
   while huffman#util#len(heap) >= 2
@@ -76,6 +86,11 @@ endfunction
 function! huffman#huffman#Tree(...)
   return huffman#util#new(s:Tree, a:000)
 endfunction
+
+""
+" @private
+" Turn the {symbolweights} into a codebook.
+" Use huffman#codebook instead.
 function! huffman#huffman#codebook(symbolweights)
   return huffman#huffman#Tree(a:symbolweights).codebook
 endfunction
