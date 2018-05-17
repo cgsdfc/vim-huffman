@@ -14,7 +14,7 @@
 "   {'A': '10', 'B': '0', 'C': '110', 'D': '111'}
 " <
 
-function! huffman#codebook(symbolweights)
+function! huffman#codebook(symbolweights) abort
   let typ = type(a:symbolweights)
   if typ == type([])
     return huffman#huffman#codebook(a:symbolweights)

@@ -1,0 +1,11 @@
+Execute (Heap pops always sorted):
+  for x in range(100)
+    let heap = huffman#heapqo#Heap(reverse(range(0, x)))
+    let popped = []
+    while heap.__len__()
+      call add(popped, heap.pop())
+    endwhile 
+    Assert popped == range(0, x)
+  endfor
+
+Execute (

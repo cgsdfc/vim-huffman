@@ -1,0 +1,126 @@
+Before:
+  let input_data = [
+    \ [[ 'A', 2 ], [ 'B', 4 ], [ 'C', 1 ], [ 'D', 1 ]],
+    \ [ ['a',1],['b',2],['c',3] ],
+    \ [['\n', 26],
+    \  [' ', 139],
+    \  ['-', 16],
+    \  [',', 5],
+    \  ['.', 6],
+    \  ['I', 1],
+    \  ['H', 1],
+    \  ['T', 2],
+    \  ['W', 2],
+    \  ['V', 1],
+    \  ['a', 75],
+    \  ['c', 23],
+    \  ['b', 14],
+    \  ['e', 108],
+    \  ['d', 32],
+    \  ['g', 20],
+    \  ['f', 15],
+    \  ['i', 68],
+    \  ['h', 21],
+    \  ['k', 4],
+    \  ['j', 3],
+    \  ['m', 15],
+    \  ['l', 36],
+    \  ['o', 70],
+    \  ['n', 72],
+    \  ['p', 27],
+    \  ['s', 62],
+    \  ['r', 61],
+    \  ['u', 23],
+    \  ['t', 86],
+    \  ['w', 13],
+    \  ['v', 7],
+    \  ['y', 12],
+    \  ['x', 1]],
+    \] 
+
+  let output_data = [
+    \ {'A': '10', 'B': '0', 'C': '110', 'D': '111'},
+    \ {'a': '10', 'b': '11', 'c': '0'},
+    \ {'\n': '00001',
+      \  ' ': '100',
+      \  ',': '10110110',
+      \  '-': '101100',
+      \  '.': '10110111',
+      \  'H': '1011010000',
+      \  'I': '1011010001',
+      \  'T': '000111011',
+      \  'V': '1011010010',
+      \  'W': '000111010',
+      \  'a': '1101',
+      \  'b': '000110',
+      \  'c': '111110',
+      \  'd': '01101',
+      \  'e': '001',
+      \  'f': '011001',
+      \  'g': '111100',
+      \  'h': '111101',
+      \  'i': '0111',
+      \  'j': '00011100',
+      \  'k': '10110101',
+      \  'l': '10111',
+      \  'm': '011000',
+      \  'n': '1100',
+      \  'o': '1010',
+      \  'p': '00010',
+      \  'r': '0100',
+      \  's': '0101',
+      \  't': '1110',
+      \  'u': '111111',
+      \  'v': '0001111',
+      \  'w': '000001',
+      \  'x': '1011010011',
+      \  'y': '000000'},
+    \]
+  let N = len(input_data)
+  AssertEqual N, len(output_data), 'Number of input and output data should match'
+  function! List2dict(list)
+    let dict = {}
+    for x in a:list
+      let dict[x[0]] =  x[1]
+    endfor
+    return dict
+  endfunction
+  
+
+  
+Execute(test class Leaf):
+  let leaf = huffman#huffman#Leaf('a', 2)
+  AssertEqual leaf.symbol, 'a'
+  AssertEqual leaf.weight, 2
+  AssertEqual leaf.parent, v:none
+  AssertEqual leaf.code(), ''
+
+Execute(test class Node):
+  let leaves = [['a',1],['b',2],['c',3]]
+  call map(leaves, 'huffman#huffman#Leaf(v:val[0], v:val[1])')
+  let node = huffman#huffman#Node(leaves[0], leaves[1])
+  Assert node.parent is# v:none
+  Assert leaves[0].parent is# node
+  Assert leaves[1].parent is# node
+  Assert node.left is# leaves[0]
+  Assert node.right is# leaves[1]
+  AssertEqual node.weight, leaves[0].weight+leaves[1].weight
+  Assert !node.__lt__(leaves[0])
+  Assert !node.__lt__(leaves[1])
+  Assert leaves[0].__lt__(leaves[1])
+
+Execute(test class Tree):
+  for x in range(N)
+    let tree = huffman#huffman#Tree(input_data[x])
+    AssertEqual tree.codebook, output_data[x]
+  endfor
+
+Execute(codebook should accept both List and Dictionary):
+  for x in range(N)
+    let list_input = input_data[x]
+    let dict_input = List2dict(list_input)
+    AssertEqual huffman#codebook(list_input), output_data[x], 'list_input should pass'
+    Log items( dict_input )
+    " AssertEqual huffman#codebook(dict_input), output_data[x], 'dict_input should pass'
+    AssertEqual huffman#codebook(dict_input), output_data[x]
+  endfor
