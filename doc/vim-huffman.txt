@@ -11,13 +11,11 @@ CONTENTS                                                *vim-huffman-contents*
 ==============================================================================
 INTRODUCTION                                               *vim-huffman-intro*
 
-Provided a List or Dict of 2-Lists in (symbol, weight) format, generate a
-Huffman codebook, returned as a Dict in {symbol: code} format. Examples:
+Provided a List of 2-Lists in (symbol, weight) format, generate a Huffman
+codebook, returned as a Dict in {symbol: code} format. Examples:
 >
   echo huffman#codebook([['A', 2], ['B', 4], ['C', 1], ['D', 1]])
-  {'A': '10', 'B': '0', 'C': '110', 'D': '111'}
 
-  echo huffman#codebook({'A':2, 'B':4, 'C':1, 'D':1})
   {'A': '10', 'B': '0', 'C': '110', 'D': '111'}
 <
 
