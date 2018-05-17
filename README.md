@@ -1,4 +1,4 @@
-## vim-huffman
+# vim-huffman
 A quick and dirty hack of [nicktimko/huffman](https://github.com/nicktimko/huffman.git) and transplant to vimscript.
 
 This plugin allows you to do basically the same things as in [nicktimko/huffman](https://github.com/nicktimko/huffman.git), but you can also provide a ``Dict`` as well:
