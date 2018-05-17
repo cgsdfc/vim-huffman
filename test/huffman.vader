@@ -78,15 +78,6 @@ Before:
 
   let N = len(input_data)
   AssertEqual N, len(output_data), 'Number of input and output data should match'
-  function! List2dict(list)
-    let dict = {}
-    for x in a:list
-      let dict[x[0]] =  x[1]
-    endfor
-    return dict
-  endfunction
-  
-
   
 Execute(test class Leaf):
   let leaf = huffman#huffman#Leaf('a', 2)
@@ -115,18 +106,9 @@ Execute(test class Tree with non-empty input):
     AssertEqual tree.codebook, output_data[x]
   endfor
 
-Execute(TODO: codebook() should accept both List and Dictionary):
-  for x in range(N)
-    let list_input = input_data[x]
-    let dict_input = List2dict(list_input)
-    AssertEqual huffman#codebook(list_input), output_data[x], 'list_input should pass'
-    AssertEqual huffman#codebook(dict_input), output_data[x]
-  endfor
-
 Execute(codebook() should throw when input is neither a List or a Dictionary):
   AssertThrow huffman#codebook(1)
 
 Execute(codebook() should return {} when the input is empty):
   AssertEqual {}, huffman#codebook([])
   AssertEqual {}, huffman#codebook({})
-  
