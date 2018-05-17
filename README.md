@@ -15,3 +15,6 @@ Put the following line in you ``.vimrc`` if you are using [Vundle](https://githu
 ```vim
 Plugin 'cgsdfc/vim-huffman'
 ```
+
+# License
+MIT

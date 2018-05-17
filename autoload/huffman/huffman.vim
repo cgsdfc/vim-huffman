@@ -66,6 +66,8 @@ endfunction
 
 let s:Tree = {}
 
+""
+" {symbolweights} should not be empty.
 function! s:Tree.__init__(symbolweights)
   let leaves = map(copy(a:symbolweights), 'huffman#huffman#Leaf(v:val[0], v:val[1])')
   " This leaves[:] is really really important as it copies the List, which
@@ -90,7 +92,11 @@ endfunction
 ""
 " @private
 " Turn the {symbolweights} into a codebook.
-" Use huffman#codebook instead.
+" {symbolweights} should be a List or a Dict.
+" If {symbolweights} is empty, an empty Dict is returned.
 function! huffman#huffman#codebook(symbolweights)
+  if empty(a:symbolweights)
+    return {}
+  endif
   return huffman#huffman#Tree(a:symbolweights).codebook
 endfunction
