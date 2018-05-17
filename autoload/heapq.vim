@@ -3,6 +3,7 @@
 " heapq.py.
 
 " Try to use __lt__ but failback to operator<.
+" TODO: Replace it with object#lt()
 function! heapq#_cmp_lt(x, y)
   if huffman#util#hasattr(a:x, '__lt__')
     return a:x.__lt__(a:y)

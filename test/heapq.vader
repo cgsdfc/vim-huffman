@@ -1,1 +1,73 @@
-Execute (
+Before:
+  " Prepare some data
+  let Data = [43, 11, 41, 41, 74, 42]
+  
+  " call heapify on {data} and verify that min(data) == data[0]
+  " Since min() of Vim cannot use lt hook, user should provide
+  " a {min} Funcref that perform the job.
+  function! VerifyMin(data, min_data)
+    call heapq#heapify(a:data)
+    AssertEqual a:min_data, a:data[0]
+  endfunction
+  
+  " A slow version of heapsort.
+  function! HeapSort(data)
+    call heapq#heapify(a:data)
+    let sorted = []
+    while len(a:data)
+      call add(sorted, heapq#heappop(a:data))
+    endwhile
+    return sorted
+  endfunction
+
+Execute(test heapify):
+  " TODO: Find a random plugin to generate random samples
+  call VerifyMin(Data, min(Data))
+
+Execute(test user-defined less_than):
+  let Person = {}
+  function! NewPerson(cls, age)
+    let person = deepcopy(a:cls)
+    let person.age = a:age
+    return person
+  endfunction
+  
+  function! Person.__lt__(other)
+    return self.age < a:other.age
+  endfunction
+
+  let person_data = map(copy(Data), 'NewPerson(Person, v:val)')
+  call VerifyMin(person_data, NewPerson(Person, min(Data)))
+
+Execute(test heappop returns minimum):
+  while len(Data)
+    let first = Data[0]
+    let popped = heapq#heappop(Data)
+    AssertEqual first, popped
+  endwhile
+
+Execute(test heappop maintains invariant):
+  while len(Data) > 1
+    call heapq#heappop(Data)
+    AssertEqual min(Data), Data[0]
+  endwhile
+  
+Execute(test heappush maintains invariant):
+  let heap = []
+  while len(Data)
+    call heapq#heappush(heap, remove(Data, 0))
+    AssertEqual min(heap), heap[0]
+  endwhile
+
+Execute(test heapsort usable):
+  let a = sort(copy(Data))
+  let b = HeapSort(copy(Data))
+  AssertEqual a, b
+
+Execute(test heappushpop maintains invariant):
+  call heapq#heapify(Data)
+  let oldlen = len(Data)
+  let popped = heapq#heappushpop(Data, 21)
+  AssertEqual oldlen, len(Data)
+  AssertEqual Data[0], min(Data)
+  

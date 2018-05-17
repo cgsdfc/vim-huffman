@@ -7,5 +7,3 @@ Execute (Heap pops always sorted):
     endwhile 
     Assert popped == range(0, x)
   endfor
-
-Execute (
