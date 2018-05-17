@@ -115,12 +115,10 @@ Execute(test class Tree):
     AssertEqual tree.codebook, output_data[x]
   endfor
 
-Execute(codebook should accept both List and Dictionary):
+Execute(TODO: codebook should accept both List and Dictionary):
   for x in range(N)
     let list_input = input_data[x]
     let dict_input = List2dict(list_input)
     AssertEqual huffman#codebook(list_input), output_data[x], 'list_input should pass'
-    Log items( dict_input )
-    " AssertEqual huffman#codebook(dict_input), output_data[x], 'dict_input should pass'
     AssertEqual huffman#codebook(dict_input), output_data[x]
   endfor

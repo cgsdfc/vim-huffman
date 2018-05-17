@@ -1,5 +1,5 @@
 Execute (Heap pops always sorted):
-  for x in range(100)
+  for x in range(10)
     let heap = huffman#heapqo#Heap(reverse(range(0, x)))
     let popped = []
     while heap.__len__()
