@@ -5,5 +5,5 @@ Execute (Heap pops always sorted):
     while heap.__len__()
       call add(popped, heap.pop())
     endwhile 
-    Assert popped == range(0, x)
+    AssertEqual popped, range(0, x)
   endfor

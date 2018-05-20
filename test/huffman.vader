@@ -106,9 +106,9 @@ Execute(test class Tree with non-empty input):
     AssertEqual tree.codebook, output_data[x]
   endfor
 
-Execute(codebook() should throw when input is neither a List or a Dictionary):
+Execute(codebook() should throw when input is not a List):
   AssertThrow huffman#codebook(1)
+  AssertThrow huffman#codebook({})
 
 Execute(codebook() should return {} when the input is empty):
   AssertEqual {}, huffman#codebook([])
-  AssertEqual {}, huffman#codebook({})

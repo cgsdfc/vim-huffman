@@ -95,8 +95,11 @@ endfunction
 " {symbolweights} should be a List or a Dict.
 " If {symbolweights} is empty, an empty Dict is returned.
 function! huffman#huffman#codebook(symbolweights)
-  if empty(a:symbolweights)
-    return {}
+  if type([]) == type(a:symbolweights)
+    if empty(a:symbolweights)
+      return {}
+    endif
+    return huffman#huffman#Tree(a:symbolweights).codebook
   endif
-  return huffman#huffman#Tree(a:symbolweights).codebook
+  throw huffman#util#ValueError('expected a List')
 endfunction

@@ -12,10 +12,6 @@
 "   {'A': '10', 'B': '0', 'C': '110', 'D': '111'}
 " <
 
-function! huffman#codebook(symbolweights) abort
-  if type([]) == type(a:symbolweights)
-    return huffman#huffman#codebook(a:symbolweights)
-  else
-    throw huffman#util#ValueError('expected a List')
-  endif
+function! huffman#codebook(...) abort
+  return call('huffman#huffman#codebook', a:000)
 endfunction
